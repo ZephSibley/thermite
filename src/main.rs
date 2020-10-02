@@ -1,4 +1,11 @@
+mod chunk;
+use chunk::Chunk;
+use chunk::OpCode::OpReturn;
 
 fn main() {
-    println!("Hello, world!");
+    let chunk = Chunk {
+        code: vec![OpReturn]
+    };
+    println!("{}", chunk.code.len());
+    println!("Done!");
 }
