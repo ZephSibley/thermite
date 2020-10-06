@@ -13,7 +13,7 @@ pub enum Const {
 pub struct Chunk {
     pub codes: Vec<OpCode>,
     pub constants: Vec<Const>,
-    //lines: u64,
+    lines: Vec<usize>,
 }
 
 
@@ -22,16 +22,23 @@ impl Chunk {
         Chunk {
             codes: Vec::new(),
             constants: Vec::new(),
+            lines: Vec::new(),
         }
     }
 
-    pub fn add_code(&mut self, code: OpCode) {
+    pub fn add_code(&mut self, code: OpCode, line: usize) {
         self.codes.push(code);
+        self.lines.push(line);
     }
 
-    pub fn add_constant(&mut self, value: Const) {
+    pub fn add_constant(&mut self, value: Const, line: usize) {
         let value_index = self.constants.len();
         self.constants.push(value);
         self.codes.push(OpCode::OpConstant(value_index));
+        self.lines.push(line);
+    }
+
+    pub fn get_line(self, index: usize) -> usize {
+        return self.lines[index]
     }
 }
