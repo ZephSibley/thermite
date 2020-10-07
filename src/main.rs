@@ -1,5 +1,6 @@
 mod chunk;
 mod debug;
+mod vm;
 
 use chunk::Chunk;
 use chunk::OpCode::OpReturn;
