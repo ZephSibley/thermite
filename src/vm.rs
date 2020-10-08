@@ -1,4 +1,5 @@
 use crate::chunk::Chunk;
+use crate::chunk::OpCode;
 
 enum InterpretResult {
     InterpretOk,
@@ -8,14 +9,22 @@ enum InterpretResult {
 
 struct VM {
     chunk: Chunk,
-    ip: usize,
 }
 
 impl VM {
     pub fn new(chunk: Chunk) -> VM {
         VM {
             chunk,
-            ip: 0,
         }
+    }
+
+    pub fn run(self) -> InterpretResult {
+        for (i, code) in &self.chunk {
+            match code {
+                OpCode::OpReturn => return InterpretResult::InterpretOk,
+                OpCode::OpConstant(c) => return InterpretResult::InterpretOk,
+            }
+        }
+        return InterpretResult::InterpretOk;
     }
 }

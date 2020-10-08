@@ -42,3 +42,33 @@ impl Chunk {
         return self.lines[index]
     }
 }
+
+impl<'a> IntoIterator for &'a Chunk {
+    type Item = (usize, &'a OpCode);
+    type IntoIter = ChunkIntoIterator<'a>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        ChunkIntoIterator {
+            chunk: self,
+            index: 0,
+        }
+    }
+}
+
+pub struct ChunkIntoIterator<'a> {
+    chunk: &'a Chunk,
+    index: usize,
+}
+
+// TODO: Test to see if this is more efficient when using Copy instead
+// of passing by reference
+impl<'a> Iterator for ChunkIntoIterator<'a> {
+    
+    type Item = (usize, &'a OpCode);
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let result = &self.chunk.codes[self.index];
+        self.index += 1;
+        return Some((self.index, result));
+    }
+}
