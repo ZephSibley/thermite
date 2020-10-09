@@ -22,7 +22,7 @@ impl VM {
     }
 
     pub fn run(&mut self) -> InterpretResult {
-        for (i, code) in &self.chunk {
+        for code in &self.chunk {
             match code {
                 OpCode::OpConstant(ci) => {
                     println!("{:?}\n", self.chunk.constants[*ci]);
