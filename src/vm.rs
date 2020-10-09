@@ -1,6 +1,6 @@
 use crate::chunk::Chunk;
 use crate::chunk::OpCode;
-use crate::chunk::Const
+use crate::chunk::Const;
 
 enum InterpretResult {
     InterpretOk,
@@ -10,7 +10,7 @@ enum InterpretResult {
 
 struct VM {
     chunk: Chunk,
-    stack: Vec<Const>
+    stack: Vec<Const>,
 }
 
 impl VM {
@@ -21,13 +21,19 @@ impl VM {
         }
     }
 
-    pub fn run(self) -> InterpretResult {
+    pub fn run(&mut self) -> InterpretResult {
         for (i, code) in &self.chunk {
             match code {
                 OpCode::OpConstant(ci) => {
-                    println!("{:?}\n", self.chunk.constants[*ci])
+                    println!("{:?}\n", self.chunk.constants[*ci]);
+                    self.stack.push(
+                        self.chunk.constants[*ci]
+                    )
                 },
-                OpCode::OpReturn => return InterpretResult::InterpretOk,
+                OpCode::OpReturn => {
+                    println!("{:?}", self.stack.pop());
+                    return InterpretResult::InterpretOk;
+                },
             }
         }
         return InterpretResult::InterpretOk;

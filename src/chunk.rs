@@ -4,7 +4,7 @@ pub enum OpCode {
     OpConstant(usize),
 }
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub enum Const {
     Float(f64),
 }
