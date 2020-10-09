@@ -1,12 +1,13 @@
-#[derive(Debug)]
-pub enum OpCode {
-    OpReturn,
-    OpConstant(usize),
-}
-
 #[derive(Debug, Copy, Clone)]
 pub enum Const {
     Float(f64),
+}
+
+#[derive(Debug)]
+pub enum OpCode { 
+    OpNegate,
+    OpConstant(usize),
+    OpReturn,
 }
 
 #[derive(Debug)]
@@ -44,7 +45,7 @@ impl Chunk {
 }
 
 impl<'a> IntoIterator for &'a Chunk {
-    type Item = (usize, &'a OpCode);
+    type Item = &'a OpCode;
     type IntoIter = ChunkIntoIterator<'a>;
 
     fn into_iter(self) -> Self::IntoIter {
@@ -64,11 +65,11 @@ pub struct ChunkIntoIterator<'a> {
 // of passing by reference
 impl<'a> Iterator for ChunkIntoIterator<'a> {
     
-    type Item = (usize, &'a OpCode);
+    type Item = &'a OpCode;
 
     fn next(&mut self) -> Option<Self::Item> {
         let result = &self.chunk.codes[self.index];
         self.index += 1;
-        return Some((self.index, result));
+        return Some(result);
     }
 }

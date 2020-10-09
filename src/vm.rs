@@ -1,6 +1,6 @@
 use crate::chunk::Chunk;
-use crate::chunk::OpCode;
 use crate::chunk::Const;
+use crate::chunk::OpCode;
 
 enum InterpretResult {
     InterpretOk,
@@ -28,12 +28,20 @@ impl VM {
                     println!("{:?}\n", self.chunk.constants[*ci]);
                     self.stack.push(
                         self.chunk.constants[*ci]
-                    )
-                },
+                    );
+                    break;
+                }
+                OpCode::OpNegate => {
+                    match self.stack.pop() {
+                        None => return InterpretResult::InterpretCompileError,
+                        Some(Const::Float(n)) => self.stack.push(Const::Float(-n)),
+                    }
+                    break;
+                }
                 OpCode::OpReturn => {
                     println!("{:?}", self.stack.pop());
                     return InterpretResult::InterpretOk;
-                },
+                }
             }
         }
         return InterpretResult::InterpretOk;
