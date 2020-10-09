@@ -1,12 +1,9 @@
-#[derive(Debug, Copy, Clone)]
-pub enum Const {
-    Float(f64),
-}
+use crate::constants::Const;
 
 #[derive(Debug)]
-pub enum OpCode { 
-    OpNegate,
+pub enum OpCode {
     OpConstant(usize),
+    OpNegate,
     OpReturn,
 }
 
@@ -68,6 +65,9 @@ impl<'a> Iterator for ChunkIntoIterator<'a> {
     type Item = &'a OpCode;
 
     fn next(&mut self) -> Option<Self::Item> {
+        if self.index == self.chunk.codes.len() {
+            return None
+        }
         let result = &self.chunk.codes[self.index];
         self.index += 1;
         return Some(result);
