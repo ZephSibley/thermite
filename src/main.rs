@@ -14,9 +14,11 @@ fn main() {
     
     vm.chunk.add_constant(Float(1.2), 1);
     vm.chunk.add_constant(Float(1.2), 1);
-    vm.chunk.add_code(OpCode::OpNegate, 2);
     vm.chunk.add_code(OpCode::OpAdd, 2);
-    vm.chunk.add_code(OpCode::OpReturn, 2);
+    vm.chunk.add_constant(Float(2.5), 2);
+    vm.chunk.add_code(OpCode::OpMultiply, 3);
+    vm.chunk.add_code(OpCode::OpNegate, 3);
+    vm.chunk.add_code(OpCode::OpReturn, 4);
 
     vm.run();
 
