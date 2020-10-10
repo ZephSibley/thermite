@@ -13,7 +13,9 @@ fn main() {
     let mut vm = VM::new(chunk);
     
     vm.chunk.add_constant(Float(1.2), 1);
+    vm.chunk.add_constant(Float(1.2), 1);
     vm.chunk.add_code(OpCode::OpNegate, 2);
+    vm.chunk.add_code(OpCode::OpAdd, 2);
     vm.chunk.add_code(OpCode::OpReturn, 2);
 
     vm.run();

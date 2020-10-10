@@ -11,7 +11,8 @@ pub fn disassemble_chunk(chunk: &Chunk, name: &str ) {
             OpCode::OpConstant(i) => println!(
                 "OpConstant {:?}", chunk.constants[*i]
             ),
-            OpCode::OpNegate => println!("OpNegate")
+            OpCode::OpNegate => println!("OpNegate"),
+            OpCode::OpAdd => println!("OpAdd"),
         }
     }
 }
