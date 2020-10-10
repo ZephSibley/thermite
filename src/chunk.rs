@@ -4,9 +4,9 @@ use crate::constants::Const;
 pub enum OpCode {
     OpConstant(usize),
     OpAdd,
-    // OpSubtract,
-    // OpMultiply,
-    // OpDivide,
+    OpSubtract,
+    OpMultiply,
+    OpDivide,
     OpNegate,
     OpReturn,
 }

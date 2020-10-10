@@ -37,6 +37,27 @@ impl VM {
                         left + right
                     );
                 },
+                OpCode::OpSubtract => {
+                    let right = self.stack.pop().unwrap();
+                    let left = self.stack.pop().unwrap();
+                    self.stack.push(
+                        left - right
+                    );
+                },
+                OpCode::OpDivide => {
+                    let right = self.stack.pop().unwrap();
+                    let left = self.stack.pop().unwrap();
+                    self.stack.push(
+                        left / right
+                    );
+                },
+                OpCode::OpMultiply => {
+                    let right = self.stack.pop().unwrap();
+                    let left = self.stack.pop().unwrap();
+                    self.stack.push(
+                        left * right
+                    );
+                }
                 OpCode::OpNegate => {
                     match self.stack.pop() {
                         None => return InterpretResult::InterpretCompileError,
