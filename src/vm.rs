@@ -2,14 +2,14 @@ use crate::chunk::Chunk;
 use crate::chunk::Const;
 use crate::chunk::OpCode;
 
-enum InterpretResult {
+pub enum InterpretResult {
     InterpretOk,
     InterpretCompileError,
-    InterpretRuntimeError,
+    //InterpretRuntimeError,
 }
 
-struct VM {
-    chunk: Chunk,
+pub struct VM {
+    pub chunk: Chunk,
     stack: Vec<Const>,
 }
 
@@ -25,18 +25,22 @@ impl VM {
         for code in &self.chunk {
             match code {
                 OpCode::OpConstant(ci) => {
-                    println!("{:?}\n", self.chunk.constants[*ci]);
+                    println!("{:?}", self.chunk.constants[*ci]);
                     self.stack.push(
                         self.chunk.constants[*ci]
                     );
-                    break;
-                }
+                },
+                OpCode::OpAdd => {
+                    let (left, right) = self.unroll_operands();
+                    self.stack.push(
+                        left + right
+                    );
+                },
                 OpCode::OpNegate => {
                     match self.stack.pop() {
                         None => return InterpretResult::InterpretCompileError,
                         Some(Const::Float(n)) => self.stack.push(Const::Float(-n)),
                     }
-                    break;
                 }
                 OpCode::OpReturn => {
                     println!("{:?}", self.stack.pop());
@@ -44,6 +48,13 @@ impl VM {
                 }
             }
         }
+        println!("End Run");
         return InterpretResult::InterpretOk;
+    }
+
+    fn unroll_operands(self) -> (Const, Const) {
+        let right = self.stack.pop().unwrap();
+        let left = self.stack.pop().unwrap();
+        return (left, right);
     }
 }
