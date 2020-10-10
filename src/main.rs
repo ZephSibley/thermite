@@ -1,17 +1,24 @@
 mod chunk;
+mod constants;
 mod debug;
 mod vm;
 
 use chunk::Chunk;
-use chunk::OpCode::OpReturn;
-use chunk::Const::Float;
+use chunk::OpCode;
+use constants::Const::Float;
+use vm::VM;
 
 fn main() {
-    let mut chunk = Chunk::new();
-    chunk.add_code(OpReturn, 1);
-    chunk.add_constant(Float(1.2), 2);
+    let chunk = Chunk::new();
+    let mut vm = VM::new(chunk);
+    
+    vm.chunk.add_constant(Float(1.2), 1);
+    vm.chunk.add_code(OpCode::OpNegate, 2);
+    vm.chunk.add_code(OpCode::OpReturn, 2);
 
-    debug::disassemble_chunk(chunk, "test");
+    vm.run();
+
+    debug::disassemble_chunk(&vm.chunk, "test");
 
     println!("== Done! ==")
 }

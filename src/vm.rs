@@ -1,6 +1,6 @@
 use crate::chunk::Chunk;
-use crate::chunk::Const;
 use crate::chunk::OpCode;
+use crate::constants::Const;
 
 pub enum InterpretResult {
     InterpretOk,
@@ -17,7 +17,7 @@ impl VM {
     pub fn new(chunk: Chunk) -> VM {
         VM {
             chunk,
-            stack: Vec::new(),
+            stack: Vec::<Const>::new(),
         }
     }
 
@@ -31,7 +31,8 @@ impl VM {
                     );
                 },
                 OpCode::OpAdd => {
-                    let (left, right) = self.unroll_operands();
+                    let right = self.stack.pop().unwrap();
+                    let left = self.stack.pop().unwrap();
                     self.stack.push(
                         left + right
                     );
@@ -50,11 +51,5 @@ impl VM {
         }
         println!("End Run");
         return InterpretResult::InterpretOk;
-    }
-
-    fn unroll_operands(self) -> (Const, Const) {
-        let right = self.stack.pop().unwrap();
-        let left = self.stack.pop().unwrap();
-        return (left, right);
     }
 }
